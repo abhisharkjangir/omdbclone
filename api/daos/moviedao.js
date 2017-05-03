@@ -9,6 +9,10 @@ var MovieByNameDao = function (title) {
     .catch(err =>
       reject(err))
   });
+};
+
+var MovieCloneDao   = function (request) {
+  console.log();
 }
 
-module.exports = MovieByNameDao;
+module.exports = {MovieByNameDao,MovieCloneDao};

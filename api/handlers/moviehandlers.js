@@ -1,4 +1,4 @@
-var MovieByNameDao = require('../daos/moviedao');
+var {MovieByNameDao,MovieCloneDao} = require('../daos/moviedao');
 var RequestHelper = require('../helpers/request');
 
 var movieByName = function (req,res) {
@@ -8,5 +8,8 @@ var movieByName = function (req,res) {
 };
 
 
+var cloneOmdb = function (req,res) {
+MovieCloneDao()
+};
 
-module.exports = movieByName;
+module.exports = {movieByName,cloneOmdb};
