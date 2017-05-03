@@ -1,7 +1,8 @@
 var request = require('request-promise');
+var {Pages,Alphabet} = require('../constants/constants');
 
 var MovieByNameDao = function (title) {
-  var url = 'http://www.omdbapi.com/?s=' + title;
+  var url = 'http://www.omdbapi.com/?t=' + title;
   return new Promise(function (resolve,reject) {
     request({url : url,json:true})
     .then(data =>
@@ -11,15 +12,16 @@ var MovieByNameDao = function (title) {
   });
 };
 
-var MovieCloneDao   = function (char) {
-  var pages = [1,2,3,4,5,6,7,8,9,10];
-  return Promise.all(pages.map(
-    x =>
-   new Promise(function (resolve,reject) {
-      request({url : 'http://www.omdbapi.com/?s=' + char + '&page=' + x,json:true})
-      .then(data => resolve(data))
-      .catch(err => reject(err))
-    })
+var MovieCloneDao   = function () {
+  return Promise.all(Alphabet.map(alpha =>
+    Promise.all(Pages.map(pageno =>
+      new Promise(function (resolve,reject) {
+         request({url : 'http://www.omdbapi.com/?s=' + alpha + '&page=' + pageno,json:true})
+         .then(data => resolve(data))
+      //  console.log(data)
+         .catch(err => reject(err))
+       })
+    ))
   ));
 };
 
