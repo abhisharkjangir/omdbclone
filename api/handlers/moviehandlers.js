@@ -1,4 +1,5 @@
-var {MovieByNameDao,MovieCloneDao} = require('../daos/moviedao');
+var {MovieByNameDao,MovieCloneDao,getMoviesDetailByIDFromOmdb} = require('../daos/moviedao');
+var {insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao} = require('../daos/moviedbdao');
 var RequestHelper = require('../helpers/request');
 
 var movieByName = function (req,res) {
@@ -11,25 +12,54 @@ var movieByName = function (req,res) {
 var cloneOmdb = function (req,res) {
   MovieCloneDao()
   .then(function (data) {
-    var movieArr = [];var movieArr1 = [];var movieArr2 = [];
-    var sArr = [];
-    var arrList = [];
-    for (var i = 0; i < data.length; i++) {
-      for (var j = 0; j < data[i].length; j++) {
-        movieArr.push(data[i][j]);
-      }
-    }
-    for (var k = 0; k < movieArr.length; k++) {
-      movieArr1.push(movieArr[k].Search);
-    }
-    for (var l = 0; l < movieArr1.length; l++) {
-      for (var m = 0; m < movieArr1[l].length; m++) {
-        movieArr2.push(movieArr1[l][m]);
-      }
-    }
-    res.send(RequestHelper(true, 'Success', movieArr2, []))
+    insertMultipleMovieDao(processData(data))
+    .then(function (result) {
+    })
+      res.send(RequestHelper(true, 'Success',result, []))
+    .catch(err => console.log(err))
   })
   .catch(err => console.log(err))
 };
 
-module.exports = {movieByName,cloneOmdb};
+function processData(data) {
+  var movieArr = [];
+  var movieArr1 = [];
+  var movieArr2 = [];
+  var sArr = [];
+  var arrList = [];
+  for (var i = 0; i < data.length; i++) {
+    for (var j = 0; j < data[i].length; j++) {
+      movieArr.push(data[i][j]);
+    }
+  }
+  for (var k = 0; k < movieArr.length; k++) {
+    movieArr1.push(movieArr[k].Search);
+  }
+  for (var l = 0; l < movieArr1.length; l++) {
+    for (var m = 0; m < movieArr1[l].length; m++) {
+      movieArr2.push(movieArr1[l][m]);
+    }
+  }
+  return movieArr2;
+};
+
+var cloneOmdbMovies = function (req,res) {
+  getMovieListDao(req.body.from,req.body.limit)
+  .then(function (result) {
+    var imdbIDList = [];
+    result.forEach(function (movie) {
+      imdbIDList.push(movie.imdbID);
+    })
+    getMoviesDetailByIDFromOmdb(imdbIDList).then(function (data) {
+      addNewMovieDetailsDao(data)
+      .then(function (response) {
+        res.send(RequestHelper(true, 'Success',response, []))
+      })
+      .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
+  })
+  .catch(err => console.log(err))
+}
+
+module.exports = {movieByName,cloneOmdb,cloneOmdbMovies};

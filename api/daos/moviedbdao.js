@@ -1,4 +1,4 @@
-var movies = require('../models/movie');
+var {movies,moviesdetails} = require('../models/movie');
 
 var AddNewMovieDao = function (body) {
   var movie = new movies();
@@ -9,15 +9,6 @@ var AddNewMovieDao = function (body) {
   movie.Poster = body.Poster;
   return new Promise(function (resolve,reject) {
     movie.save().then(data =>
-      resolve(data))
-    .catch(err =>
-      reject(err))
-  });
-}
-
-var getMovieListDao = function () {
-  return new Promise(function (resolve,reject) {
-    movies.find().then(data =>
       resolve(data))
     .catch(err =>
       reject(err))
@@ -42,4 +33,37 @@ var getMovieByIdDao = function (movieId) {
   });
 }
 
-module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao};
+var insertMultipleMovieDao = function (moviesArr) {
+  return new Promise(function (resolve,reject) {
+    movies.collection.insert(moviesArr).then(data =>
+      resolve(data))
+    .catch(err =>
+      reject(err))
+  });
+}
+
+var getMovieListDao = function (from,limit) {
+  if (!from) {
+    from = 0;
+  }
+  if (!limit) {
+    limit = 10
+  }
+  return new Promise(function (resolve,reject) {
+    movies.find({}).skip( parseInt(from)).limit(parseInt(limit)).then(data =>
+      resolve(data))
+    .catch(err =>
+      reject(err))
+  });
+};
+
+var addNewMovieDetailsDao = function (moviesDeatilsArr) {
+  return new Promise(function (resolve,reject) {
+    moviesdetails.collection.insert(moviesDeatilsArr).then(data =>
+      resolve(data))
+    .catch(err =>
+      reject(err))
+  });
+}
+
+module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao};

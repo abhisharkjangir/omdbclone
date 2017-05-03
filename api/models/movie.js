@@ -10,4 +10,8 @@ var AddMoviesSchema   = new Schema({
 });
 
 
-module.exports = mongoose.model('movies', AddMoviesSchema);
+var movies = mongoose.model('movies', AddMoviesSchema);
+var moviesdetails =   mongoose.model('moviesdetails', {});
+module.exports = {
+  movies,moviesdetails
+};
