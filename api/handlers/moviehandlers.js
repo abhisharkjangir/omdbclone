@@ -8,11 +8,10 @@ var movieByName = function (req,res) {
   .catch(err => res.send(RequestHelper(false)))
 };
 
-
 var cloneOmdb = function (req,res) {
-  MovieCloneDao()
+  MovieCloneDao()//Get Movies list by from OMDB API
   .then(function (data) {
-    insertMultipleMovieDao(processData(data))
+    insertMultipleMovieDao(processData(data))//Inset Movies List in your DB
     .then(function (result) {
     })
       res.send(RequestHelper(true, 'Success',result, []))
@@ -44,14 +43,14 @@ function processData(data) {
 };
 
 var cloneOmdbMovies = function (req,res) {
-  getMovieListDao(req.body.from,req.body.limit)
+  getMovieListDao(req.body.from,req.body.limit)//Get Movies from your DB to get imdbID
   .then(function (result) {
     var imdbIDList = [];
     result.forEach(function (movie) {
       imdbIDList.push(movie.imdbID);
     })
-    getMoviesDetailByIDFromOmdb(imdbIDList).then(function (data) {
-      addNewMovieDetailsDao(data)
+    getMoviesDetailByIDFromOmdb(imdbIDList).then(function (data) {//Get Movies Details by imdbID
+      addNewMovieDetailsDao(data)//Save Movies details in your DB
       .then(function (response) {
         res.send(RequestHelper(true, 'Success',response, []))
       })

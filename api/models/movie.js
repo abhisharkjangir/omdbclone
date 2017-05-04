@@ -9,9 +9,9 @@ var AddMoviesSchema   = new Schema({
   Poster : String
 });
 
+var movies = mongoose.model('movies', AddMoviesSchema);//"movies" collection in your db
+var moviesdetails =   mongoose.model('moviesdetails', {});//"moviesdetails" collection in your db
 
-var movies = mongoose.model('movies', AddMoviesSchema);
-var moviesdetails =   mongoose.model('moviesdetails', {});
 module.exports = {
   movies,moviesdetails
 };
