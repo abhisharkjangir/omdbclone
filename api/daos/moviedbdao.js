@@ -66,4 +66,13 @@ var addNewMovieDetailsDao = function (moviesDeatilsArr) {
   });
 }
 
-module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao};
+var getMovieByOmdbIdDao = function (omdbId) {
+  return new Promise(function (resolve,reject) {
+    moviesdetails.find({imdbID: omdbId}).then(data =>
+      resolve(data))
+    .catch(err =>
+      reject(err))
+  });
+}
+
+module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao,getMovieByOmdbIdDao};
