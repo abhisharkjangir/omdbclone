@@ -66,4 +66,19 @@ var addNewMovieDetailsDao = function (moviesDeatilsArr) {
   });
 }
 
-module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao};
+var getMovieBySearchTermDao = (searchTerm) => {
+  // if (!from) {
+  //   from = 0;
+  // }
+  // if (!limit) {
+  //   limit = 10
+  // }
+  return new Promise(function (resolve,reject) {
+    movies.find({Title:{$regex:searchTerm}}).skip( parseInt(0)).limit(parseInt(10)).then(data =>
+      resolve(data))
+    .catch(err =>
+      reject(err))
+  });
+}
+
+module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao,getMovieBySearchTermDao};

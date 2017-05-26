@@ -1,4 +1,4 @@
-var {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao} = require('../daos/moviedbdao');
+var {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,getMovieBySearchTermDao} = require('../daos/moviedbdao');
 var RequestHelper = require('../helpers/request');
 
 var addNewMovie = function (req,res) {
@@ -25,6 +25,11 @@ var getMovieById = function (req,res) {
   .catch(err => res.send(RequestHelper(false)))
 }
 
+var getMovieBySearchTerm = (req,res) => {
+  getMovieBySearchTermDao(req.params.searchTerm)
+  .then(data => res.send(RequestHelper(true, 'Success', data, [])))
+  .catch(err => res.send(RequestHelper(false, 'Success', err, [])))
+}
 
 
-module.exports = {addNewMovie,getMovieList,deleteMovieById,getMovieById};
+module.exports = {addNewMovie,getMovieList,deleteMovieById,getMovieById,getMovieBySearchTerm};
