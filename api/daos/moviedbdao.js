@@ -74,7 +74,7 @@ var getMovieBySearchTermDao = (searchTerm) => {
   //   limit = 10
   // }
   return new Promise(function (resolve,reject) {
-    movies.find({Title:{$regex:searchTerm}}).skip( parseInt(0)).limit(parseInt(10)).then(data =>
+    movies.find({Title:{$regex:searchTerm}}).skip( parseInt(0)).limit(parseInt(100)).then(data =>
       resolve(data))
     .catch(err =>
       reject(err))
