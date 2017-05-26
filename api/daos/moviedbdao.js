@@ -50,24 +50,25 @@ var addNewMovieDetailsDao = function(moviesDeatilsArr) {
 
 var getMovieByOmdbIdDao = function(omdbId) {
   return new Promise(function(resolve, reject) {
-    moviesdetails.find({imdbID: omdbId}).then(data => resolve(data)).catch(err => reject(err))
+    moviesdetails.find({imdbID: omdbId})
+    .then(data =>{ resolve(data)})
+    .catch(err => {console.log(err);reject(err)})
   });
 }
 
-const searchMovieByNameDao = function(searchterm) {
-  return new Promise((resolve, reject) => {
-    movies.find({Title: searchterm}).then(data => resolve(data)).catch(err => reject(err))
+var getMovieBySearchTermDao = (searchTerm) => {
+  // if (!from) {
+  //   from = 0;
+  // }
+  // if (!limit) {
+  //   limit = 10
+  // }
+  return new Promise(function (resolve,reject) {
+    movies.find({Title:{$regex:searchTerm}}).skip( parseInt(0)).limit(parseInt(100)).then(data =>
+      resolve(data))
+    .catch(err =>
+      reject(err))
   });
 }
 
-module.exports = {
-  AddNewMovieDao,
-  getMovieListDao,
-  deleteMovieDao,
-  getMovieByIdDao,
-  insertMultipleMovieDao,
-  getMovieListDao,
-  addNewMovieDetailsDao,
-  getMovieByOmdbIdDao,
-  searchMovieByNameDao
-};
+module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao,getMovieBySearchTermDao};
