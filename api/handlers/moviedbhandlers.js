@@ -32,7 +32,7 @@ var getMovieByImdbId = function(req, res) {
 }
 
   var getMovieBySearchTerm = (req, res) => {
-    getMovieBySearchTermDao(req.params.searchTerm)
+    getMovieBySearchTermDao(req.params.searchTerm,req.query)
     .then(data => res.send(RequestHelper(true, 'Success', data, [])))
     .catch(err => res.send(RequestHelper(false, 'Success', err, [])))
   }
