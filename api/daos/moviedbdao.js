@@ -87,4 +87,4 @@ var getMovieBySearchTermDao = (searchTerm,query) => {
   });
 }
 
-module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao,getMovieBySearchTermDao};
+module.exports = {AddNewMovieDao,getMovieListDao,deleteMovieDao,getMovieByIdDao,insertMultipleMovieDao,getMovieListDao,addNewMovieDetailsDao,getMovieBySearchTermDao,getMovieByOmdbIdDao};

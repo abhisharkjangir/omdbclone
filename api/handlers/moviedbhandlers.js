@@ -1,4 +1,4 @@
-var {AddNewMovieDao, getMovieListDao, deleteMovieDao, getMovieByIdDao, getMovieBySearchTermDao} = require('../daos/moviedbdao');
+var {AddNewMovieDao, getMovieListDao, deleteMovieDao, getMovieByIdDao, getMovieBySearchTermDao,getMovieByOmdbIdDao} = require('../daos/moviedbdao');
 var RequestHelper = require('../helpers/request');
 
 var addNewMovie = function(req, res) {
@@ -43,5 +43,6 @@ var getMovieByImdbId = function(req, res) {
     getMovieList,
     deleteMovieById,
     getMovieById,
-    getMovieBySearchTerm
+    getMovieBySearchTerm,
+    getMovieByImdbId
   };
