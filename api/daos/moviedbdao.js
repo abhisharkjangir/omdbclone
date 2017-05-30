@@ -38,7 +38,7 @@ var getMovieListDao = function(from, limit) {
     limit = 10
   }
   return new Promise(function(resolve, reject) {
-    movies.find({}).skip(parseInt(from)).limit(parseInt(limit)).then(data => resolve(data)).catch(err => reject(err))
+    moviesdetails.find({}).skip(parseInt(from)).limit(parseInt(limit)).then(data => resolve(data)).catch(err => reject(err))
   });
 };
 
@@ -51,8 +51,8 @@ var addNewMovieDetailsDao = function(moviesDeatilsArr) {
 var getMovieByOmdbIdDao = function(omdbId) {
   return new Promise(function(resolve, reject) {
     moviesdetails.find({imdbID: omdbId})
-    .then(data =>{ resolve(data)})
-    .catch(err => {console.log(err);reject(err)})
+    .then(data =>{ resolve(data[0])})
+    .catch(err => {reject(err)})
   });
 }
 
@@ -80,7 +80,7 @@ var getMovieBySearchTermDao = (searchTerm,query) => {
   //   limit = 10
   // }
   return new Promise(function (resolve,reject) {
-    movies.find(searchData).skip( parseInt(0)).limit(parseInt(100)).then(data =>
+    moviesdetails.find(searchData).skip( parseInt(0)).limit(parseInt(100)).then(data =>
       resolve(data))
     .catch(err =>
       reject(err))
