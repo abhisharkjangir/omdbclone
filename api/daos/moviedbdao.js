@@ -73,14 +73,19 @@ var getMovieBySearchTermDao = (searchTerm,query) => {
       searchData.Poster = "N/A";
     }
   }
-  // if (!from) {
-  //   from = 0;
-  // }
-  // if (!limit) {
-  //   limit = 10
-  // }
+  if (!query.from) {
+    from = 0;
+  }else {
+    from = query.from;
+  }
+  if (!query.limit) {
+    limit = 10
+  }else {
+    limit = query.limit;
+  }
+  console.log(query);
   return new Promise(function (resolve,reject) {
-    moviesdetails.find(searchData).skip( parseInt(0)).limit(parseInt(100)).then(data =>
+    moviesdetails.find(searchData).skip(parseInt(from)).limit(parseInt(limit)).then(data =>
       resolve(data))
     .catch(err =>
       reject(err))
